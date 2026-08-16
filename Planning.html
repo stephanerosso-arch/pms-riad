@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+  <base target="_top">
+  <head>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <style>
+    .container{
+        max-width: 1600px;
+        min-width: 320px;
+        margin: 1em auto;
+      }
+    #loading{
+        position : fixed;
+        top: 0;
+        left: 0;
+        z-index:100;
+        width:100vw;
+        height:100vh;
+        background-color: rgba(255,255,255,0.7);
+      }
+    #update {
+        float : right;      
+        font-size: x-small;
+      }
+     </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="alert alert-primary" role="alert" id="infoPlanning">
+        <span id="libelleAlert"> </span>
+        <button type="button" class="btn btn-primary btn-sm" id="btnListe">see Detail</button>
+        <button type="button" class="btn btn-secondary btn-sm" hidden>Small button</button>
+      </div>
+      <button type="button" class="btn btn-primary" id="btnLoad"> Update Planning </button>
+      <button type="button" class="btn btn-danger" id="btnSave" disabled > Save Change</button>
+      <button type="button" class="btn btn-warning" id="btnCancel" disabled > Cancel Change</button>
+      <button type="button" class="btn btn-primary" id="btnLoad" hidden> Add Manually </button>
+      <div id="update">Last Update : </div>
+      <div id="containerPlanning"></div>
+      <div id="loading" class="d-flex justify-content-center align-items-center invisible">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      <!-- Modal -->
+      <?!= include('DetailPlanning'); ?>
+      <?!= include('ListePlanning'); ?>
+    </div>
+  
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/gantt/highcharts-gantt.js"></script>
+    <script src="https://code.highcharts.com/gantt/modules/draggable-points.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+    <script>
+      var today = new Date(),
+      lastIndexTouch = 0,
+      selectId = -1,
+      tabPlanning = [], // planning tel que 
+      dataSeries = [], // Tableau d'objet tel qu'attendu dans le module chart
+      day = 1000 * 60 * 60 * 24,
+      each = Highcharts.each,
+      indexDragnDrop = 0,
+      infoPlanning = document.getElementById('infoPlanning'),
+      libelleAlert = document.getElementById('libelleAlert'),
+      inputDivide = document.getElementById("inputDivide"),      
+      loading = document.getElementById("loading"),
+      btnListe  = document.getElementById('btnListe'),     
+      btnDivide = document.getElementById('btnDivide'),
+      btnConfirmDivide = document.getElementById('btnConfirmDivide'),
+      btnComment = document.getElementById('btnComment'),
+      btnDuplicate = document.getElementById('btnDuplicate'),
+      btnCheckin = document.getElementById('btnCheckin'),
+      btnDelete = document.getElementById('btnDelete'),
+      btnLoad = document.getElementById('btnLoad'),
+      btnSave = document.getElementById('btnSave'),
+      btnCancel = document.getElementById('btnCancel');
+  
+      var chart = new Object();
+      
+      var paramRoom = [['Grande Suite','SX'],['Suite Terrasse','SX'],['Suite Patio','SF'],['Suite Moyenne','SU'],['Suite Racine','SU'],['Tresor Marron','DE'],['Saveur Grise','DE'],['Cagette','DE'],
+                        ['Cascade','DE'], ['Côté Cuisine','DE'],['Face Cuisine','ST'],['Floraison','ST'],['to affect',""]];
+      var listeRoom = paramRoom.map (r=> r[0]);
+
+    // Set to 00:00:00:000 today
+    today = today.getTime();
+    lastIndexTouch = today;
+    
+    // Create the chart
+    function loadChart() {
+      chart = Highcharts.ganttChart('containerPlanning', {
+        chart: {
+          animation: false,
+          //        spacingLeft: 1,
+          height: 800,
+        },
+        scrollbar: {
+          enabled : true,
+          barBackgroundColor: 'gray',
+          barBorderRadius: 7,
+        },        
+        navigator: {
+            enabled: true,
+            series: {
+                type: 'gantt',
+                pointPlacement: 0.5,
+                pointPadding: 0.5
+            },
+            yAxis: {
+                min: -8,
+                max: -7,
+                reversed: true,
+                categories: []
+            }
+        },
+        title: {
+            text: "Planning Ambre & Epices Marrakech V2.1"
+        },
+        plotOptions: {
+          series: {
+            animation: false, // Do not animate dependency connectors
+            pointWidth: 35,
+            dragDrop: {
+              draggableX: false,
+              draggableY: true,
+              dragMinY: 0,
+              dragMaxY: 12,
+              dragPrecisionX: day / 2 // Snap to eight hours
+            },
+            dataLabels: {
+              enabled: true,
+              useHTML: false,
+              allowOverlap: false,
+              format: '<font size=2 style="color:#ec0000;">{point.warning}</font> ' + '<font size=2> {point.name}</font>',
+              style: {
+                color : "white",
+                padding: 15,
+                textOutline: 'none',
+                textOverflow: 'ellipsis',
+                cursor: 'default',
+                pointerEvents: 'none',
+                fontSize : '14'
+              }
+            },
+            allowPointSelect: true,
+            point: {
+              events: {
+                click: function (event) { // Fonction 1 : Ajouter un evenement sur un click et récupérer une donnée 
+                       },
+                select: function (event){
+                          lastIndexTouch = tabPlanning[this.id][1];
+                          document.getElementById("selectDivide").hidden = true;
+                          document.getElementById("ModalLabel").textContent = "Détail Guest Reservation : " + tabPlanning[this.id][9];
+                          document.getElementById("SourceDet").textContent = tabPlanning[this.id][4];
+                          document.getElementById("NameDet").textContent = tabPlanning[this.id][0];
+                          document.getElementById("ArrivalDet").textContent = new Date(tabPlanning[this.id][1]).toLocaleDateString('fr-FR');
+                          document.getElementById("DepartureDet").textContent = new Date(tabPlanning[this.id][2]).toLocaleDateString('fr-FR');
+                          document.getElementById("RoomDet").textContent = tabPlanning[this.id][7];
+                          document.getElementById("Amount").textContent = Math.round(tabPlanning[this.id][6]) + " €";
+                          document.getElementById("commentPlanning").value = tabPlanning[this.id][5];
+                          $('#planningModal').modal('show'); // ouverture boite de dialogue
+                        },
+                unselect: function (event){},
+                drag: function (e) {indexDragnDrop = this.id},
+                drop: function (e) {
+                  lastIndexTouch = tabPlanning[this.id][1];
+                  tabPlanning[indexDragnDrop][8] = listeRoom[e.newPoints[this.id].newValues.y]; // Sauvegarde du nouveau no de la suite
+                  tabPlanning.forEach(function(r,i) {
+                    if (chart.series[0].data[i] != undefined) {
+                      chart.series[0].data[i].color = colorBox (r);
+                      chart.series[0].data[i].borderColor = colorBorder(r);
+                    }
+                  });
+                  infoPlanning.className = "alert alert-danger";
+                  libelleAlert.textContent ="ALERT : Don't forget to save";
+                  btnSave.disabled = false;
+                  btnCancel.disabled = false;
+                }
+              }
+            }
+          }
+        },
+      
+        yAxis: {
+          type: 'category',
+          grid: {
+          columns: [{
+            title: { text: 'Room' },
+            categories: listeRoom
+          }, {
+            title: { text: 'Type' },
+            categories: paramRoom.map (r=> r[1])
+          }]},
+          plotBands: [{
+              color: 'rgba(255,0,0,0.1)',
+              borderColor: 'red',
+              borderWidth: 3,
+              from: 11.55,
+              to: 12.45,
+              id: 'plotband-1'
+          }],
+          min: 0,
+          max: 12
+        },
+        xAxis: [{
+            alternateGridColor: '#DCDCDC',
+            currentDateIndicator: {
+                width: 2,
+                dashStyle: 'LongDash',
+                color: 'grey',
+                label : "today",
+                zIndex: 50
+            },
+            min: lastIndexTouch - 10 * day,
+            max: lastIndexTouch + 20 * day,
+            labels: {format: '{value:%d}'},
+            grid: {cellHeight: 30}
+          },{
+            tickPixelInterval: 10000, // Fonction 3 : mettre le tableau avec le mois
+            labels: {format: '{value:%B %Y}'},
+            grid: {cellHeight: 30}
+          }],
+        tooltip: {
+            useHTML: true,
+            headerFormat: '<table>',
+            pointFormat: '<tr><td colspan="2"><b>{point.name}</b></td></tr>' +
+                         '<tr><td> Arr : </td><td><b>{point.dateDeb}</b></td></tr>' +
+                         '<tr><td> Dep : </td><td><b>{point.dateFin}</b></td></tr>' +
+                         '<tr><td> Room Type : </td><td><b>{point.roomType}</b></td></tr>' +
+                         '<tr><td> Net Amount : </td><td><b>{point.amount}</b> € </td></tr>' +
+                         '<tr><td> Comment : </td><td><b>{point.comment}</b></td></tr>',
+            footerFormat: '</table>',
+          },
+        series: [{data: dataSeries}]
+      });
+    }
+    
+    loadPlanning();
+    getLastUpdate();
+  
+/////////////////////////////////////////////////////////
+/////////////////    ACTION WITH SERVER
+/////////////////////////////////////////////////////////
+    function loadPlanning() {
+      loading.classList.remove("invisible"); // spinner show
+      google.script.run.withSuccessHandler(function(dataReturned) { // mise à jour de data avec les infos récupérer dans recup mail
+        tabPlanning = dataReturned;
+        // Add the point
+        console.log (dataReturned);
+        updateChart();
+        btnSave.disabled = true;
+        btnCancel.disabled = true;    
+        infoPlanning.className = "alert alert-primary";
+        libelleAlert.textContent ="Planning Loaded : " + dataReturned.length + 
+                                  " elements. Number to affect : " + dataReturned.filter(r => r[8] == "to affect").length;
+        loading.classList.add("invisible"); // spinner hide
+      }).getPlanning();
+    }
+
+    btnLoad.onclick = function () { // identify list of reservation that is not on the planning
+      loading.classList.remove("invisible"); // spinner show
+      google.script.run.withSuccessHandler(function(dataReturned) {
+        tabPlanning = dataReturned;
+        // Add the list to tabPlanning in the "to Affect Line"
+        // Automaticallhy add the Airbnb reservation at the good place
+        updateChart();
+        infoPlanning.className = "alert alert-warning";
+        libelleAlert.textContent = "WARNING : Loading of modification OK : " + 
+              dataReturned.filter(r => r[10] == "New").length + " New reservation and " + 
+              dataReturned.filter(r => r[10] == "Modif").length + " Modification " + 
+              dataReturned.filter(r => r[10] == "Delete").length + " Cancellation";
+        btnSave.disabled = false;
+        btnCancel.disabled = false;
+        loading.classList.add("invisible"); // spinner hide
+      }).loadNewResa ();
+      btnSave.disabled = true;
+      btnCancel.disabled = true;
+    }
+  
+    btnSave.onclick = function () {
+      loading.classList.remove("invisible"); // spinner show
+      google.script.run.withSuccessHandler(function(dataReturned) {
+        tabPlanning = dataReturned;
+        updateChart(); // update chart after modify the tabPlanning
+        infoPlanning.className = "alert alert-primary";
+        libelleAlert.textContent = "Planning Save !"  + 
+                                  " Number to affect : " + dataReturned.filter(r => r[8] == "to affect").length + "  ";
+        btnSave.disabled = true;
+        btnCancel.disabled = true;
+        getLastUpdate();
+        loading.classList.add("invisible"); // spinner hide
+      }).setPlanning (tabPlanning);
+    }
+    
+    btnCancel.onclick = function () {
+        loadPlanning();
+    }
+        
+    function getLastUpdate() {
+      google.script.run.withSuccessHandler(function(lastUpdate) {
+        update.textContent = "Last Update : " +  new Date(lastUpdate).toLocaleString('fr-FR');
+      }).getUpdate ();
+    }
+
+
+/////////////////////////////////////////////////////////
+///////////////     ACTION ON RESA
+/////////////////////////////////////////////////////////
+
+    btnComment.onclick = function () {
+      var points = chart.getSelectedPoints();
+      tabPlanning[points[0].id][5] = document.getElementById("commentPlanning").value;
+      $('#planningModal').modal('hide'); // ouverture boite de dialogue
+      btnSave.disabled = false;
+      btnCancel.disabled = false;
+    }
+
+    btnDivide.onclick = function () { // création de la liste permettant de choisier la date de division, aucune modif à ce stade
+      var length = inputDivide.options.length;
+      for (i = length-1; i >= 0; i--) {
+        inputDivide.options[i] = null;
+      }
+      document.getElementById("selectDivide").hidden = false;
+      var points = chart.getSelectedPoints();
+      var indDate = tabPlanning[points[0].id][1] + day;
+      while (indDate<  tabPlanning[points[0].id][2]) {
+        var newOption = new Option(new Date(indDate).toLocaleDateString('fr-FR'),indDate);
+        inputDivide.add(newOption,undefined);
+        indDate+=day;
+      }
+    }
+    
+     btnDuplicate.onclick = function () { // user confirm, so we create a new element in the planning and in the chart and change the date
+      var points = chart.getSelectedPoints();
+      var resaDuplicate = tabPlanning[points[0].id].filter(r => true);
+      console.log(resaDuplicate);
+      tabPlanning.push(resaDuplicate);
+      btnConfirmDivide = document.getElementById('btnConfirmDivide'),
+      tabPlanning[tabPlanning.length-1][8] = "to affect";
+      updateChart(); // update chart after modify the tabPlanning
+    }
+
+    btnConfirmDivide.onclick = function () { // user confirm, so we create a new element in the planning and in the chart and change the date
+      var points = chart.getSelectedPoints();
+      var resaDuplicate = tabPlanning[points[0].id].filter(r => true);
+
+      tabPlanning.push(resaDuplicate);
+      tabPlanning[points[0].id][2] = parseInt(inputDivide.value);
+      tabPlanning[tabPlanning.length-1][1] = parseInt(inputDivide.value);
+      tabPlanning = tabPlanning.sort((a, b) => a[1] - b[1]); // sort by date
+
+      updateChart(); // update chart after modify the tabPlanning
+    }
+
+    btnDelete.onclick = function () { // Delete a resa, only change the position of the resa in a hide line and change number of tabPlanning
+      var rsp = confirm("Do you confirm you want to Delete this reservation of the planning ?");
+      if (rsp) {
+        var points = chart.getSelectedPoints();
+        tabPlanning[points[0].id][8] = "Delete";
+        updateChart(); // update chart after modify the tabPlanning
+      }
+    }
+    
+    btnListe.onclick = function () {
+      document.getElementById("listP").innerHTML = "";
+      tabPlanning.forEach(function(r){
+        if ((r[10] == "New") || (r[10] == "Modif") || (r[10] == "to affect") || (r[10] == "Delete")) {
+          var node = document.createElement("LI");
+          var textnode = document.createTextNode(r[10] + " : " + r[0] + " from " + (new Date(r[1]).toLocaleDateString('fr-FR')) + 
+                                                  " to " + (new Date(r[2]).toLocaleDateString('fr-FR')));
+          node.appendChild(textnode);
+          document.getElementById("listP").appendChild(node);
+        }
+      });    
+      $('#planningModal2').modal('show'); // ouverture boite de dialogue
+    }
+
+    btnCheckin.onclick = function () { // 26/08/2022 ajoute une fiche client dans l'app de gestion client
+      const points = chart.getSelectedPoints();
+      const rsp = confirm("Do you confirm you want check-in this guest (that will create the file of the guest) ?");
+      if (rsp) {
+        const rChIn = tabPlanning[points[0].id];
+        console.log(rChIn);
+        let guestInfo = {
+          ref: rChIn[9],
+          name : rChIn[0],
+          source: rChIn[4],
+          bookDate : rChIn[3],
+          arrival: Math.min( ...tabPlanning.filter(r => (r[9] == rChIn[9])).map(r => r[1]) ),
+          depart: Math.max( ...tabPlanning.filter(r => (r[9] == rChIn[9])).map(r => r[2]) ),
+          rate : rChIn[6]
+        };
+        guestInfo.listeRoom = tabPlanning.filter(r => (r[9] == rChIn[9]) && (r[1]==guestInfo.arrival)).map(r=> r[8]).join();
+        guestInfo.nbRoom = tabPlanning.filter(r => (r[9] == rChIn[9]) && (r[1]==guestInfo.arrival)).length;
+        console.log(guestInfo);
+/*         
+        const Arrival = new Date(rChIn[1]).toLocaleDateString('fr-FR');
+        const Depart = new Date(rChIn[2]).toLocaleDateString('fr-FR');
+        const listeRoom = tabPlanning.filter(r => r[9] == rChIn[9]).map(r=> r[8]).join();
+        const lineGuest = [rChIn[9],rChIn[0],Arrival,Depart,rChIn[6],listeRoom,"En cours"]
+*/
+        loading.classList.remove("invisible"); // spinner show
+        google.script.run.withSuccessHandler(function(msg) {
+          libelleAlert.textContent = msg;
+          loading.classList.add("invisible"); // spinner show
+        }).checkIn (guestInfo);
+      }
+      $('#planningModal').modal('hide'); // fermeture boite de dialogue 
+    }
+/////////////////////////////////////////////////////////
+///////////////     Generatic function
+/////////////////////////////////////////////////////////
+   
+    function updateChart() {
+      dataSeries = [];
+      tabPlanning.forEach( function(r,i){ 
+          dataSeries.push({
+          start: r[1] + 0.5 * day,
+          dateDeb : new Date(r[1] + 0.5 * day).toLocaleDateString('fr-FR'),
+          end: r[2] + 0.5 * day,
+          dateFin : new Date(r[2] + 0.5 * day).toLocaleDateString('fr-FR'),
+          roomType : r[7],
+          comment : r[5],
+          amount : Math.round(r[6]),
+          y: listeRoom.indexOf(r[8]),
+          index: r[9],
+          id : i,
+          name: r[0],
+          warning :  r[5] != "" ? String.fromCharCode(9888) : "",
+          borderWidth : 2,
+          borderColor : colorBorder(r),
+          color : colorBox(r),
+          dataLabels: {
+            style: {width : (r[2] - r[1])/day*50-10 },
+          }
+        })});
+
+      // Reload the planning at the date of the first reservation to add
+      loadChart();
+      $('#planningModal').modal('hide'); // close Modal
+      btnSave.disabled = false;
+      btnCancel.disabled = false;
+    }
+    
+    function colorBox (r) { // on colore selon la provenance du client
+      if (tabPlanning.filter(row => (row[8] == r[8]) && !((row[2] <= r[1]) || (row[1] >= r[2]))).length != 1) return 'rgba(255,0,0,0.5)'; // cas des SurBooking, même chambre et date se chevauchant
+      else if (r[4].toLowerCase() == "hotelbeds" ) return "#2ecaac";
+      else if ((r[4].toLowerCase() == "bc") || (r[4].toLowerCase() == "bookingcom")) return "#54c6f9";
+      else return "#C0C0C0";
+    }
+    
+    function colorBorder (r) { // on entoure de rouge si sous classé, blanc si idem et vert si surclassé
+      const listeType = ["ST","DE","SU","SX","SF"];
+      var valPrevu = listeType.indexOf(r[7]);
+      var indReal = listeRoom.indexOf(r[8])
+      if (indReal != -1) var valReal = listeType.indexOf(paramRoom[indReal][1]);
+      else valReal = 0 ;
+      if (valPrevu > valReal) return 'rgba(255,0,0,0.5)'; 
+      else if (valPrevu < valReal) return 'rgba(0,128,0,0.5)';
+      else return 'rgba(255,255,255,1)'
+    }
+    
+    function isMobile() {
+      if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) return true;
+    }
+    
+    </script>
+  </body>
+</html>
+

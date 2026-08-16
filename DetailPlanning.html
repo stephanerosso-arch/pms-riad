@@ -1,0 +1,49 @@
+        <div class="modal fade" id="planningModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="ModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="modalData">
+                <form>
+                  <div class="form-row">
+                    <div class="col">
+                      <strong>Name : </strong><i id="NameDet"></i><br>
+                      <strong>Source : </strong><i id="SourceDet"></i><br>
+                      <strong>Room(s) : </strong><i id="RoomDet"></i><br>
+                    </div>
+                    <div class="col">
+                      <strong>Arrival : </strong><i id="ArrivalDet"></i><br>
+                      <strong>Departure : </strong><i id="DepartureDet"></i><br>
+                      <strong>Total Amount : </strong><i id="Amount"></i><br>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <strong>Private Comment for Hotel : </strong>
+                    <textarea class="form-control" id="commentPlanning" rows="3" ></textarea>
+                  </div>
+                  <div class="btn-group ButtonDetailGroup modal-footer" role="group">
+                    <button type="button" class="btn btn-primary" id="btnDivide">Divide</button>
+                    <button type="button" class="btn btn-primary" id="btnCheckin" > Check-in </button>
+                    <button type="button" class="btn btn-primary" id="btnDuplicate" hidden> Duplicate </button>
+                    <button type="button" class="btn btn-warning" id="btnDelete" > Delete</button>
+                    <button type="button" class="btn btn-primary" id="btnComment" > Save Comment </button>
+                  </div>
+                  <div class="input-group mb-3" id="selectDivide" hidden>
+                    <select class="custom-select" id="inputDivide">
+                      <option selected>Choose Date...</option>
+                    </select>
+                    <div class="input-group-prepend">
+                      <button type="button" class="btn btn-primary" id="btnConfirmDivide" > Confirm Division</button>
+                    </div>
+                  </div>
+                
+                </form>
+              </div>
+             </div>
+          </div>
+        </div>
+
