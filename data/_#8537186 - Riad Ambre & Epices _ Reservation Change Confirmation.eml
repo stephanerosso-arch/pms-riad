@@ -1,0 +1,256 @@
+Delivered-To: ambreetepices@gmail.com
+Received: by 2002:a17:504:847:b0:1e7d:c8cf:8ca1 with SMTP id j7csp1374719njd;
+        Wed, 12 Aug 2026 02:25:06 -0700 (PDT)
+X-Received: by 2002:a05:6000:4286:b0:47f:eb5c:9b25 with SMTP id ffacd0b85a97d-481528d8d0dmr4850128f8f.10.1786526706265;
+        Wed, 12 Aug 2026 02:25:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1786526706; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rmbnlJdDbnI3vYegVdcOyK2DHjsBavpgRTM4dP/cNPRdBJ5ZqdcQ/YS2Q6/K++nSQE
+         /qrRwStW+1wHr7xk2LC8C9s0Cq4YwxzHrsa0WjAD9KVjV1075JaH8xVrxuN7ZZoRDDwS
+         WQc03SNN3405lSsf5pDQ6RIlNS+FRmNJPKgW22VyUnzesTGiqwNt5XR/cro1I/HVARST
+         b4ygDJjxST4uAlVIif+WgM47npPlNulkATclFkviK23RUzYPriZRZqWwnzKf13V/5srD
+         A9+75BN2Tou7YW4mOcQBg9W1aokHq4pLcVqcL8m5bjWkmhYCXM13YKdf8U+OOBHr4FCw
+         hQiw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:message-id:reply-to:to:from:subject
+         :mime-version:date:sender:dkim-signature:dkim-signature;
+        bh=MXqHl9HrlLoRcrsFPuFmVqXdvpDonD8i5C2zG89Tr70=;
+        fh=r25NiDoGLX/PKiw42909zrmsl444W6jNjyl1LANdFqQ=;
+        b=Huax2X869j+qSFAVtjbk0fYlPGru0p4FclVAdsm1fbQSMskL5UYUBAqpLInRyhQSqB
+         D9sgRC/vVRq5kIuXGGjuJdjShWuY3adVUEv6zJHbKkX4XsNSS+IlmNdhanzomQCEK507
+         6actSktymR1UFwdR21K649ikvfD2MXJRr2DEZGRpMtJBz0vor/6WQ8IW4ju6BjTeFfRH
+         j69JeFTsGsU+frnqljNFRe94vgyrzQphplUs6XG2hTP4oDSLzYntJCROx3hqbuw4fLiz
+         IuLEg+wEJW7lREmc3gc0hJjGmVbVj+EvMIrvGzHmnTGKfpMNZkzCCl3BY0bCb39YZdro
+         +i/A==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@mg.reseliva.com header.s=k1 header.b=A+msFlGA;
+       dkim=pass header.i=@eu.mailgun.org header.s=krs2 header.b=CnMRtX8x;
+       spf=pass (google.com: domain of bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com designates 161.38.206.136 as permitted sender) smtp.mailfrom="bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=reseliva.com
+Return-Path: <bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com>
+Received: from v5136.v5e838360.euw1.send.eu.mailgun.net (v5136.v5e838360.euw1.send.eu.mailgun.net. [161.38.206.136])
+        by mx.google.com with UTF8SMTPS id ffacd0b85a97d-48150d975f4si3603805f8f.348.2026.08.12.02.25.06
+        for <ambreetepices@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 12 Aug 2026 02:25:06 -0700 (PDT)
+Received-SPF: pass (google.com: domain of bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com designates 161.38.206.136 as permitted sender) client-ip=161.38.206.136;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@mg.reseliva.com header.s=k1 header.b=A+msFlGA;
+       dkim=pass header.i=@eu.mailgun.org header.s=krs2 header.b=CnMRtX8x;
+       spf=pass (google.com: domain of bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com designates 161.38.206.136 as permitted sender) smtp.mailfrom="bounce+2d19ba.11fd1-ambreetepices=gmail.com@mg.reseliva.com";
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=reseliva.com
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.reseliva.com; q=dns/txt; s=k1; t=1786526705; x=1786533905;
+ h=Content-Type: Content-Transfer-Encoding: Message-Id: Reply-To: To: To: From: From: Subject: Subject: Mime-Version: Date: Sender: Sender: X-Feedback-Id;
+ bh=MXqHl9HrlLoRcrsFPuFmVqXdvpDonD8i5C2zG89Tr70=;
+ b=A+msFlGAiM++QRvoG0SVKT+Vl5oAuAm7OlVV1Ruffd6Kn8bgiYtMpvcnRPjy/8MD+CDKTmJ3ft9JGu4LvDvBm1v0jRSvufqqDpl+bvwedfJNCJRGjiQloONgF5DANULkFPYHJYpandJ43LS3UB6n0xiAtz8JQZtRP2x3ttabBdcgZY+40+hX8/3xay3AAv0pRXHVEB/QswsPU4ShJAGn8deE9SXEOXBKX0dUFgHs922onR23FVLhUFjOeIM5ZtoqEbir04rCecXfd+j9DhCtilNs446a1+JSw/hfbWYRVrkCcTyYa6XXwU3+jnLthzmB4Ud1rN5t2QqTbzUKV9B6Gw==
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=eu.mailgun.org; q=dns/txt; s=krs2; t=1786526705; x=1786533905;
+ h=Content-Type: Content-Transfer-Encoding: Message-Id: Reply-To: To: To: From: From: Subject: Subject: Mime-Version: Date: Sender: Sender: X-Feedback-Id;
+ bh=MXqHl9HrlLoRcrsFPuFmVqXdvpDonD8i5C2zG89Tr70=;
+ b=CnMRtX8xdQJJQoa3ujzobwifJKmuuWDbxl/wfaiVE9IdgAVvaP2SGWVUIeJr5gqM9idVWJDlFZ1gXGm7uU/oL70snU7N9tUvOXko5THt9YYBQSZ70ogQOvZO+ZhFDJrAWF5mJHlEqUCtQZWsjpDhs7U0LcWMw5rmfsCjNJcBTHY=
+X-Mailgun-Sid: WyJlNzgyNyIsImFtYnJlZXRlcGljZXNAZ21haWwuY29tIiwiMTFmZDEiXQ==
+X-Feedback-Id: postmaster@mg.reseliva.com::5cc71c7ecd1682000108c34c:mailgun
+Received: by 386eb7417fd5c9c6273ff173a764bc5ee95c0b4ec37f12e37a91c954bb332f04 with HTTP
+ id 6a7c3bf1e29e285080bd8043; Wed, 12 Aug 2026 09:25:05 GMT
+X-Mailgun-Sending-Ip: 161.38.206.136
+Sender: info=reseliva.com@mg.reseliva.com
+Date: Wed, 12 Aug 2026 09:25:05 +0000
+Mime-Version: 1.0
+Subject: *#8537186 - Riad Ambre & Epices : Reservation Change Confirmation
+From: Reseliva <info@reseliva.com>
+To: ambreetepices@gmail.com
+Reply-To: PLEASE DO NOT REPLY <info@reseliva.com>
+Message-Id: <20260812092505.2f866d886f29ca0e@mg.reseliva.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html; charset="utf-8"
+
+<table width=3D"600" border=3D"0" cellspacing=3D"0" cellpadding=3D"0" style=
+=3D"border:2px solid #666666;padding:10px;direction:ltr;">
+
+  <x_logo>
+  <tr >
+    <td width=3D"10%" style=3D"padding:10px"><font face=3D"Tahoma, Arial, V=
+erdana" size=3D"4"><img src=3D"https://images.reseliva.com/hotels/aXNpdGEuN=
+TY0Ng=3D=3D/logo_1_200.jpg?"  hspace=3D"5" vspace=3D"5" align=3D"left" /></=
+font></td>
+    <td width=3D"" style=3D"padding:10px"><font face=3D"Tahoma, Arial, Verd=
+ana" size=3D"5">Riad Ambre &amp; Epices</font><br />     =20
+      <font face=3D"Tahoma, Arial, Verdana" size=3D"2" color=3D"#006633" ><=
+b>Message de confirmation de r=C3=A9servation</b></font>
+      <div><font face=3D"Tahoma, Arial, Verdana" size=3D"2" color=3D"#FF990=
+0" ><b>Reservation Modified</b></font></div>
+      <div><font face=3D"Tahoma, Arial, Verdana" size=3D"3" color=3D"#00009=
+9" ><b>Source : BookingCom</b></font>
+	  <font face=3D"Tahoma, Arial, Verdana" size=3D"2"> #6399564201</font></di=
+v>
+      </td>
+  </tr>
+  </x_logo>
+ =20
+ =20
+  <tr>
+   <td colspan=3D"2" class=3D"style1" style=3D"padding:10px;border-top:1px =
+dashed #999"><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Pour voir les=
+ d=C3=A9tails complets de votre r=C3=A9servation, <a href=3D'https://www.re=
+seliva.com/hotel/RiadAmbreEpices/admin/login.php?p=3Dres&id=3DbjKsFtfXnHMSi=
+c1vYiZFaOKzDWhH6WfjTP02'>cliquez ici</a> et connectez-vous =C3=A0 votre com=
+pte</font></td>
+  </tr>
+ =20
+ =20
+  <tr>
+    <td colspan=3D"2" class=3D"style1" style=3D"padding:10px;border-top:1px=
+ dashed #999"><font face=3D"Tahoma, Arial, Verdana" size=3D"2"><strong>D=C3=
+=A9tails de la r=C3=A9servation:</strong></font></td>
+  </tr>
+  <tr>
+    <td colspan=3D"2" class=3D"style1" style=3D"padding:10px;border-top:1px=
+ dashed #999">
+    <table width=3D"400" border=3D"0" cellpadding=3D"2" cellspacing=3D"0" c=
+lass=3D"style1" style=3D"padding:10px">
+        <tr bgcolor=3D"#efefef">
+          <td bgcolor=3D"#CCCCCC"><font face=3D"Tahoma, Arial, Verdana" siz=
+e=3D"2">Num=C3=A9ro de r=C3=A9servation</font></td>
+          <td bgcolor=3D"#CCCCCC"><font face=3D"Tahoma, Arial, Verdana" siz=
+e=3D"3"><b>8537186</b></font></td>
+        </tr>
+        <tr>
+          <td ><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Titulaire d=
+e la r=C3=A9servation</font></td>
+          <td  ><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Melanie Ha=
+sler</font></td>
+        </tr>
+        <tr bgcolor=3D"#efefef">
+          <td width=3D"179"><font face=3D"Tahoma, Arial, Verdana" size=3D"2=
+">Date de la r=C3=A9servation</font></td>
+          <td width=3D"202"><font face=3D"Tahoma, Arial, Verdana" size=3D"2=
+">Mai 11, 2026 14:27:54</font></td>
+        </tr>
+        <tr>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Date d=E2=80=
+=99arriv=C3=A9e</font></td>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Septembre 02=
+, 2026</font></td>
+        </tr>
+        <tr bgcolor=3D"#efefef">
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Date de d=C3=
+=A9part</font></td>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Septembre 04=
+, 2026</font></td>
+        </tr>
+        <tr>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Informations=
+ du client</font></td>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Melanie  Has=
+ler</font></td>
+        </tr>
+        <tr bgcolor=3D"#efefef">
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Chambres</fo=
+nt></td>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Deluxe Doubl=
+e Room - 2 Adultes</font></td>
+        </tr>
+        <tr>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2"><strong>Tota=
+l</strong></font></td>
+          <td><font face=3D"Tahoma, Arial, Verdana" size=3D"2"><strong>380.=
+44 EUR<br/><font style=3D'font-weight:normal'>(Prepaid by guest)</font></st=
+rong></font></td>
+        </tr>
+       =20
+      </table>
+      </td>
+  </tr>
+  <tr>
+    <td colspan=3D"2" class=3D"style1" style=3D"padding:10px;border-top:1px=
+ dashed #999">
+    <font face=3D"Tahoma, Arial, Verdana" size=3D"2">
+      <strong><font face=3D'Tahoma, Arial, Verdana' size=3D'2'>Chambres</fo=
+nt></strong><br/><hr/><table cellpadding=3D3 cellspacing=3D1 border=3D0 sty=
+le=3D'padding:10px;'  ><tr bgcolor=3D'#CCCCCC' ><td rowspan=3D3 bgcolor=3D'=
+#FFFFFF'>&nbsp;</td><td colspan=3D2 style=3D'width:350px;'><font face=3D'Ta=
+homa, Arial, Verdana' size=3D'2'>Chambre 1</font><br><b><font face=3D'Tahom=
+a, Arial, Verdana' size=3D'2'>Deluxe Double Room</font></b></td></tr><tr bg=
+color=3D'#CCCCCC' ><td colspan=3D2><font face=3D'Tahoma, Arial, Verdana' si=
+ze=3D'2'>Bed & Breakfast Flex Getaway Deal genious rate</font></td></tr><tr=
+><td colspan=3D2 bgcolor=3D'#CCCCCC'><font face=3D'Tahoma, Arial, Verdana' =
+size=3D'2'>2 Adultes</font></td></tr><tr  bgcolor=3D'#EFEFEF' ><td rowspan=
+=3D3 bgcolor=3D'#CCCCCC'><font face=3D'Tahoma, Arial, Verdana' size=3D'2'>P=
+rix</font></td><td style=3D'width:220px;padding-left:10px;'><font face=3D'T=
+ahoma, Arial, Verdana' size=3D'2'>Septembre 02, 2026</font></td><td align=
+=3Dright style=3D'width:130px;padding-right:10px;'><font face=3D'Tahoma, Ar=
+ial, Verdana' size=3D'2'>185.22 EUR</font></td></tr><tr ><td style=3D'width=
+:220px;padding-left:10px;'><font face=3D'Tahoma, Arial, Verdana' size=3D'2'=
+>Septembre 03, 2026</font></td><td align=3Dright style=3D'width:130px;paddi=
+ng-right:10px;'><font face=3D'Tahoma, Arial, Verdana' size=3D'2'>185.22 EUR=
+</font></td></tr><tr ><td style=3D'padding-left:10px;' ><b><font face=3D'Ta=
+homa, Arial, Verdana' size=3D'2'>Sous-total</font></b></td><td align=3Drigh=
+t style=3D'padding-right:10px;' ><font face=3D'Tahoma, Arial, Verdana' size=
+=3D'2'>370.44 EUR</font></td></tr><tr bgcolor=3D'#CCCCCC'><td bgcolor=3D'#F=
+FFFFF'>&nbsp;</td><td style=3D'padding-left:10px;'><b><font face=3D'Tahoma,=
+ Arial, Verdana' size=3D'2'>Total pour la Chambre 1</font></b></td><td alig=
+n=3Dright style=3D'padding-right:10px;'><font face=3D'Tahoma, Arial, Verdan=
+a' size=3D'2'>380.44 EUR</font></td></tr><tr><td bgcolor=3D'#CCCCCC' ><font=
+ face=3D'Tahoma, Arial, Verdana' size=3D'2'>Total g=C3=A9n=C3=A9ral</font><=
+/td><td style=3D'padding-left:10px;'><b><font face=3D'Tahoma, Arial, Verdan=
+a' size=3D'2'>Total g=C3=A9n=C3=A9ral</font></b></td><td align=3Dright styl=
+e=3D'padding-right:10px;'><font face=3D'Tahoma, Arial, Verdana' size=3D'2'>=
+380.44 EUR</font></td></tr></table><br />
+      <strong><font face=3D'Tahoma, Arial, Verdana' size=3D'2'>Informations=
+ du client</font></strong><br/><hr/><div style=3D'padding-left:10px;'><font=
+ face=3D'Tahoma, Arial, Verdana' size=3D'2'>Adresse : Switzerland    Suisse=
+<br>T=C3=A9l=C3=A9phone :   +41 76 405 68 11<br>Adresse =C3=A9lectronique :=
+ mhasle.332383@guest.booking.com<br><b>Security Code</b> : <a href=3D'https=
+://www.reseliva.com/hotel/RiadAmbreEpices/admin/login.php?p=3Dres&id=3DvX1x=
+0ATxsproL6IKySb1aMGnLE6Uproln9sY&c2=3Dt96PXmg1EJfdMBy4uQ6Jkw%3D%3D&login_ho=
+tel=3D1'><security_code>t96PXmg1EJfdMBy4uQ6Jkw=3D=3D</security_code></a><br=
+><strong>Remarques :</strong> <br><b>Booking ID: 6399564201</b>=20
+<br /> - Booker is genius<br /><b>Payment Amount:</b> 0.00 MAD<br /><b>Paym=
+ent Type:</b> payment_on_Booking.com<br /><b>Payout Type:</b> Virtual credi=
+t card<br /><b>CC Activation Date:</b> 2026-08-26<br /><b>CC Current Balanc=
+e:</b> 0.00 EUR<br /><b>VCC Expiration Date:</b> 2027-09-01<br /><b>Info:</=
+b> Le petit-d=C3=A9jeuner est compris dans le tarif de la chambre.\nLe D=C3=
+=A9jeuner co=C3=BBte EUR 25 par personne et par nuit.\nLe D=C3=AEner co=C3=
+=BBte EUR 25 par personne et par nuit. Enfants et lits d\'appoint: Les enfa=
+nts de tous =C3=A2ges sont accept=C3=A9s. 1=C2=A0enfant (de 2 ans ou moins)=
+ peut s=C3=A9journer gratuitement s\'il dort dans des lits b=C3=A9b=C3=A9s.=
+ 1=C2=A0enfant (de 6 ans ou moins) peut s=C3=A9journer gratuitement s\'il d=
+ort dans des lits d\'appoint. Le nombre maximum de lits d\'appoint est de 1=
+=2E Le nombre maximum de lits b=C3=A9b=C3=
+=A9 est de 1. Le nombre maximum de p=
+ersonnes est de 3.  Pr=C3=A9paiement / D=C3=A9p=C3=B4t de garantie: Le clie=
+nt devra payer =C3=A0 l\'avance le montant total de la r=C3=A9servation dan=
+s les 7 jours pr=C3=A9c=C3=A9dant l\'arriv=C3=A9e.  Conditions d\'annulatio=
+n: Le client pourra annuler gratuitement sa r=C3=A9servation jusqu\'=C3=A0 =
+7 jours avant l\'arriv=C3=A9e. Le client devra verser le montant total de l=
+a r=C3=A9servation s\'il annule dans les 7 jours pr=C3=A9c=C3=A9dant l\'arr=
+iv=C3=A9e. <br /><b>Commission:</b> 92.61 EUR<br /><b>Remarks:</b> Vous ave=
+z re=C3=A7u une carte de cr=C3=A9dit virtuelle pour cette r=C3=A9servation.=
+Vous pourrez la d=C3=A9biter d=C3=A8s le 2026-08-26.<br />\nApproximate tim=
+e of arrival: between 18:00 and 19:00 <br /><br /><b>Notes for Room 1:</b><=
+hr><br /> - Guest Name: Melanie Hasler<br /> - Smoking: no<br /> - Max Chil=
+dren: 0<br /> - Meal Plan: Le petit-d=C3=A9jeuner est compris dans le tarif=
+ de la chambre.\nLe D=C3=A9jeuner co=C3=BBte EUR 25 par personne et par nui=
+t.\nLe D=C3=AEner co=C3=BBte EUR 25 par personne et par nuit.<br /><b>Gross=
+ Total :</b> 380.44 EUR<br /> <b>Tax and Fees not collected by BookingCom :=
+</b> taxe de s=C3=A9jour : 10 EUR<br /> <b>Tax and Fees included in room pr=
+ices :</b>  TVA=20
+<hr>Before Last Modification:<br>Reservation Date : 2026-05-11 14:27:54<br>=
+Check-Out Date : 2026-09-06<br>Total Amount : 645.92 EUR<br><hr>Modified : =
+2026-08-12 09:25:05<hr>=20
+<br></font></div>
+      </font>
+    </td>
+  </tr>
+ =20
+  <tr>
+    <td colspan=3D"2" class=3D"style1" style=3D"padding:10px;border-top:1px=
+ dashed #999"><font face=3D"Tahoma, Arial, Verdana" size=3D"2">Pour voir le=
+s d=C3=A9tails complets de votre r=C3=A9servation, <a href=3D'https://www.r=
+eseliva.com/hotel/RiadAmbreEpices/admin/login.php?p=3Dres&id=3DbjKsFtfXnHMS=
+ic1vYiZFaOKzDWhH6WfjTP02'>cliquez ici</a> et connectez-vous =C3=A0 votre co=
+mpte</font></td>
+  </tr>
+ =20
+ =20
+</table>
