@@ -1,23 +1,6 @@
 {
   "timeZone": "Africa/Casablanca",
+  "dependencies": {},
   "exceptionLogging": "STACKDRIVER",
-  "runtimeVersion": "V8",
-  "dependencies": {
-    "libraries": [
-      {
-        "userSymbol": "TraitementAuto",
-        "libraryId": "1klKevCga0uK_vjMcCens9Z8JHPNaWaTPn6d88y61i2fK7rlx3WZmqJih",
-        "version": "4"
-      },
-      {
-        "userSymbol": "Manageappcode",
-        "libraryId": "1ay6Rq0kFNY-JaYiTFsMCpdntGhxkenuPRTGAD2cgLTfH10_M-GGogDeA",
-        "version": "38"
-      }
-    ]
-  },
-  "webapp": {
-    "executeAs": "USER_ACCESSING",
-    "access": "ANYONE"
-  }
+  "runtimeVersion": "V8"
 }
